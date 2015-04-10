@@ -11,53 +11,54 @@ import com.lib.gumisoft.services.IRandomizer;
 public abstract class Fighter implements IFighter {
 
     protected final Factory _factory;
-    private final IRandomizer _randomizer;
-    protected Vector2 _position;
+    protected Vector2 heroPosition;
+    protected Vector2 heroDirection;
     protected Texture texture;
-    protected int directionX;
-    protected int directionY;
+    private Vector2 mousePosition;
+    private Vector2 heroCenterPosition;
 
     public Fighter(Factory factory, Vector2 position) {
         _factory = factory;
-        _position = new Vector2(position.x, position.y);
-        _randomizer = _factory.getRandomizer();
+        heroPosition = new Vector2(position.x, position.y);
         setup();
         setTexture();
     }
 
     protected abstract void setup();
     protected abstract void setTexture();
-    protected abstract void applyMousePosition();
 
-    private void changePosition(){
-        _position.x += directionX;
-        _position.y += directionY;
-        overrideIfScreenBoundariesReached();
+    private void OverrideIfScreenBoundariesReached() {
+        heroPosition.x = Math.min(heroPosition.x, Gdx.graphics.getWidth());
+        heroPosition.x = Math.max(heroPosition.x, 0);
+        heroPosition.y = Math.min(heroPosition.y, Gdx.graphics.getHeight());
+        heroPosition.y = Math.max(heroPosition.y, 0);
     }
-
-    private void overrideIfScreenBoundariesReached() {
-        _position.x = Math.min(_position.x, Gdx.graphics.getWidth());
-        _position.x = Math.max(_position.x, 0);
-        _position.y = Math.min(_position.y, Gdx.graphics.getHeight());
-        _position.y = Math.max(_position.y, 0);
-    }
-
-    private void rotate() {
-//        randomizeRotation();
-//        applyMousePosition();
-    }
-
-    private void randomizeRotation() {
-        directionX = _randomizer.getRandomNumber(-1,1);
-        directionY = _randomizer.getRandomNumber(-1,1);
-    }
-
 
     public abstract void render(Batch batch);
 
     protected void move() {
-        directionY = GameParams.HeroMoveSpeed;
-        changePosition();
+        GetCurrentMousePosition();
+        GetDirection();
+        SetDirection();
+        OverrideIfScreenBoundariesReached();
+    }
+
+    private void SetDirection() {
+        heroPosition.add(heroDirection.scl(GameParams.HeroVelocity * Gdx.graphics.getDeltaTime()));
+    }
+
+    private void GetDirection() {
+        heroCenterPosition = new Vector2(heroPosition.x + GameParams.HeroWidth/2, heroPosition.y + GameParams.HeroHeight/2);
+        float distance = heroCenterPosition.dst(mousePosition);
+        heroDirection = mousePosition.sub(heroCenterPosition).nor();
+        if (distance < 10)
+            heroDirection = new Vector2(0,0);
+    }
+
+    private void GetCurrentMousePosition() {
+        int mouseX = Gdx.input.getX();
+        int mouseY = Gdx.graphics.getHeight()-Gdx.input.getY();
+        mousePosition = new Vector2(mouseX, mouseY);
     }
 
     @Override
@@ -69,7 +70,7 @@ public abstract class Fighter implements IFighter {
 
     @Override
     public Vector2 getPosition() {
-        return this._position;
+        return this.heroPosition;
     }
 
 }

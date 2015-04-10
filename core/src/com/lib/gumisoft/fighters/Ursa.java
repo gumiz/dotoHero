@@ -1,6 +1,5 @@
 package com.lib.gumisoft.fighters;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -47,6 +46,6 @@ public class Ursa extends PlayerControlledFighter {
     private void drawHero(Batch batch) {
         animationTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = walkAnimation.getKeyFrame(animationTime, true);
-        batch.draw(currentFrame, _position.x, _position.y);
+        batch.draw(currentFrame, heroPosition.x, heroPosition.y, GameParams.HeroWidth / 2, GameParams.HeroHeight / 2, GameParams.HeroWidth, GameParams.HeroHeight, 1, 1, heroDirection.angle()-90f);
     }
 }

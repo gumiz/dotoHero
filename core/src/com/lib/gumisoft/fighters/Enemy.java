@@ -18,12 +18,9 @@ public class Enemy extends Fighter {
     }
 
     @Override
-    protected void applyMousePosition() {}
-
-    @Override
     public void render(Batch batch) {
         move();
-        batch.draw(texture, _position.x, _position.y);
+        batch.draw(texture, heroPosition.x, heroPosition.y);
     }
 
 
