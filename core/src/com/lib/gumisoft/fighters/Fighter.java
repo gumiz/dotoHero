@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.lib.gumisoft.factories.Factory;
 import com.lib.gumisoft.params.GameParams;
-import com.lib.gumisoft.services.IRandomizer;
 
 public abstract class Fighter implements IFighter {
 
@@ -22,25 +21,22 @@ public abstract class Fighter implements IFighter {
         heroPosition = new Vector2(position.x, position.y);
         setup();
         setTexture();
+        ResetMousePosition();
+    }
+
+    protected void ResetMousePosition() {
+        GetHeroCenterPosition();
+        mousePosition = heroCenterPosition;
     }
 
     protected abstract void setup();
     protected abstract void setTexture();
 
-    private void OverrideIfScreenBoundariesReached() {
-        heroPosition.x = Math.min(heroPosition.x, Gdx.graphics.getWidth());
-        heroPosition.x = Math.max(heroPosition.x, 0);
-        heroPosition.y = Math.min(heroPosition.y, Gdx.graphics.getHeight());
-        heroPosition.y = Math.max(heroPosition.y, 0);
-    }
-
     public abstract void render(Batch batch);
 
     protected void move() {
-        GetCurrentMousePosition();
         GetDirection();
         SetDirection();
-        OverrideIfScreenBoundariesReached();
     }
 
     private void SetDirection() {
@@ -48,14 +44,31 @@ public abstract class Fighter implements IFighter {
     }
 
     private void GetDirection() {
-        heroCenterPosition = new Vector2(heroPosition.x + GameParams.HeroWidth/2, heroPosition.y + GameParams.HeroHeight/2);
-        float distance = heroCenterPosition.dst(mousePosition);
-        heroDirection = mousePosition.sub(heroCenterPosition).nor();
-        if (distance < 10)
-            heroDirection = new Vector2(0,0);
+        GetHeroCenterPosition();
+        Vector2 destination = mousePosition.cpy();
+        heroDirection = destination.sub(heroCenterPosition).nor();
+        RotationOverflowProtection();
+        ScreenBoundariesProtection();
     }
 
-    private void GetCurrentMousePosition() {
+    private void GetHeroCenterPosition() {
+        heroCenterPosition = new Vector2(heroPosition.x + GameParams.HeroWidth/2, heroPosition.y + GameParams.HeroHeight/2);
+    }
+
+    private void RotationOverflowProtection() {
+        float distance = heroCenterPosition.dst(mousePosition);
+        if (distance < 10)
+            heroDirection.setZero();
+    }
+
+    private void ScreenBoundariesProtection() {
+        heroPosition.x = Math.min(heroPosition.x, Gdx.graphics.getWidth());
+        heroPosition.x = Math.max(heroPosition.x, 0);
+        heroPosition.y = Math.min(heroPosition.y, Gdx.graphics.getHeight());
+        heroPosition.y = Math.max(heroPosition.y, 0);
+    }
+
+    protected void GetCurrentMousePosition() {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.graphics.getHeight()-Gdx.input.getY();
         mousePosition = new Vector2(mouseX, mouseY);

@@ -1,6 +1,7 @@
 package com.lib.gumisoft.fighters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -14,6 +15,9 @@ public class Ursa extends PlayerControlledFighter {
     private TextureRegion[] walkFrames;
     private Animation walkAnimation;
     private float animationTime;
+    private TextureRegion currentFrame;
+    private float frameAngle;
+    private int soundDelay;
 
     public Ursa(Factory factory, Vector2 position) {
         super(factory, position);
@@ -31,6 +35,8 @@ public class Ursa extends PlayerControlledFighter {
             walkFrames[index++] = animated[x][y];
         walkAnimation = new Animation(GameParams.HeroAnimationSpeed, walkFrames);
         animationTime = 0f;
+        currentFrame = walkAnimation.getKeyFrame(animationTime, true);
+        frameAngle = 0f;
     }
 
     @Override
@@ -39,13 +45,33 @@ public class Ursa extends PlayerControlledFighter {
 
     @Override
     public void render(Batch batch) {
+        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
+        {
+            GetCurrentMousePosition();
+        }
         move();
         drawHero(batch);
     }
 
     private void drawHero(Batch batch) {
         animationTime += Gdx.graphics.getDeltaTime();
-        TextureRegion currentFrame = walkAnimation.getKeyFrame(animationTime, true);
-        batch.draw(currentFrame, heroPosition.x, heroPosition.y, GameParams.HeroWidth / 2, GameParams.HeroHeight / 2, GameParams.HeroWidth, GameParams.HeroHeight, 1, 1, heroDirection.angle()-90f);
+        if (movementDetected()) {
+            currentFrame = walkAnimation.getKeyFrame(animationTime, true);
+            frameAngle = heroDirection.angle()-90f;
+            playFootsteps();
+        }
+        batch.draw(currentFrame, heroPosition.x, heroPosition.y, GameParams.HeroWidth / 2, GameParams.HeroHeight / 2, GameParams.HeroWidth, GameParams.HeroHeight, 1, 1, frameAngle);
+    }
+
+    private void playFootsteps() {
+        soundDelay++;
+        if (soundDelay==25) {
+            _factory.getSoundManager().playRandomSword();
+            soundDelay=0;
+        }
+    }
+
+    private boolean movementDetected() {
+        return !heroDirection.isZero();
     }
 }

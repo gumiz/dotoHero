@@ -12,12 +12,13 @@ public class SoundService {
 
     public SoundService(Factory factory) {
         _factory = factory;
-        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/SwordSwing.mp3")));
-        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/Swoosh.mp3")));
-        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/LightsaberTurnOn.mp3")));
-        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/SwordsColide.mp3")));
-        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/SwordsClashing.mp3")));
-        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/AxeSwing.mp3")));
+        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/footsteps01.mp3")));
+        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/footsteps02.mp3")));
+        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/footsteps03.mp3")));
+        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/footsteps04.mp3")));
+        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/footsteps05.mp3")));
+        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/footsteps06.mp3")));
+        swords.add(Gdx.audio.newSound(Gdx.files.internal("audio/footsteps07.mp3")));
     }
 
     public void playRandomSword() {
