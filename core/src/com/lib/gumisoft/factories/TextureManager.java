@@ -7,13 +7,15 @@ public class TextureManager {
     private final Factory _factory;
     private final Array<Texture> trees;
     private final Texture background;
+    private final Texture idleUrsaFrames;
     private Texture ursaFrames;
 
     public TextureManager(Factory factory) {
         _factory = factory;
         trees = new Array<Texture>();
         background = new Texture("img/background01.png");
-        ursaFrames = new Texture("img/ursaUp.png");
+        ursaFrames = new Texture("img/ursa.png");
+        idleUrsaFrames = new Texture("img/idleUrsa.png");
     }
 
     public Texture getBackground() {
@@ -25,5 +27,8 @@ public class TextureManager {
 
     public Texture getUrsaFrames() {
         return ursaFrames;
+    }
+    public Texture getIdleUrsaFrames() {
+        return idleUrsaFrames;
     }
 }
