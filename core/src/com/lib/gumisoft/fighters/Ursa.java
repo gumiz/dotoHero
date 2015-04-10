@@ -74,7 +74,7 @@ public class Ursa extends PlayerControlledFighter {
 
     private void playFootsteps() {
         soundDelay++;
-        if (soundDelay==25) {
+        if (soundDelay==GameParams.FootstepsFramesDelay) {
             _factory.getSoundManager().playRandomSword();
             soundDelay=0;
         }
