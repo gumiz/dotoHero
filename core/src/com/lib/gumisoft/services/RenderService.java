@@ -19,8 +19,11 @@ public class RenderService {
     public void clearScreen() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
-    public void showBackground(SpriteBatch batch) {
+    public void renderBackground(SpriteBatch batch) {
         batch.draw(_factory.getTextureManager().getBackground(), 0, 0);
+    }
+    public void renderBackgroundTopLayer(SpriteBatch batch) {
+        batch.draw(_factory.getTextureManager().getBackgroundTopLayer(), 0, 0);
     }
 
     public void print(SpriteBatch batch, String text, float x, float y) {

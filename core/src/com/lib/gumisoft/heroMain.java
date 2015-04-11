@@ -34,8 +34,9 @@ public class heroMain extends ApplicationAdapter {
 
 	private void handleGameFrame() {
 		factory.getRenderFactory().clearScreen();
-		factory.getRenderFactory().showBackground(batch);
+		factory.getRenderFactory().renderBackground(batch);
 		fightersService.renderFighters(batch, heroes);
+		factory.getRenderFactory().renderBackgroundTopLayer(batch);
 	}
 
 	public void controlUserInput() {
