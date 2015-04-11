@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 public class GameParams {
     public static int ScreenWidth = 1200;
     public static int ScreenHeight = 700;
-    public static float HeroWidth = 180;
-    public static float HeroHeight = 180;
+    public static float HeroWidth = 50;
+    public static float HeroHeight = 50;
     public static float HeroVelocity = 150;
 
     public static final Vector2 HeroSpawnPosition = new Vector2(250, 100);

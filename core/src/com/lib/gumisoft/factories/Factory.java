@@ -2,6 +2,7 @@ package com.lib.gumisoft.factories;
 
 import com.badlogic.gdx.math.Vector2;
 import com.lib.gumisoft.entities.Tree;
+import com.lib.gumisoft.fighters.Ball;
 import com.lib.gumisoft.fighters.Ursa;
 import com.lib.gumisoft.fighters.Enemy;
 import com.lib.gumisoft.fighters.PlayerControlledFighter;
@@ -11,7 +12,8 @@ public class Factory {
     private final RenderService renderFactory;
     private final TextureManager textureManager;
     private final CollisionResolver collisionResolver;
-    private final UrsaFighterService ursaFighterService;
+    private final FightersService ursaFighterService;
+    private final FightersService ballFighterService;
     private final TreesService treesService;
     private LegendDisplayService legendDisplayService;
     private Randomizer randomizer;
@@ -25,6 +27,7 @@ public class Factory {
         textureManager = new TextureManager(this);
         collisionResolver = new CollisionResolver(this);
         ursaFighterService = new UrsaFighterService(this);
+        ballFighterService = new BallFighterService(this);
         treesService = new TreesService(this);
     }
     public RenderService getRenderFactory() {
@@ -38,6 +41,9 @@ public class Factory {
     }
     public PlayerControlledFighter createHeroUrsa(Vector2 position) {
         return new Ursa(this, position);
+    }
+    public PlayerControlledFighter createBall(Vector2 position) {
+        return new Ball(this, position);
     }
     public Enemy createNewEnemy(Vector2 position) {
         return new Enemy(this, position);
@@ -56,6 +62,9 @@ public class Factory {
     }
     public FightersService getUrsaFighterService() {
         return ursaFighterService;
+    }
+    public FightersService getBallFighterService() {
+        return ballFighterService;
     }
 
     public TreesService getTreesService() {

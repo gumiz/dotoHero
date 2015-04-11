@@ -20,7 +20,8 @@ public class heroMain extends ApplicationAdapter {
 	public void create () {
 		factory = new Factory();
 		batch = new SpriteBatch();
-		fightersService = factory.getUrsaFighterService();
+		//fightersService = factory.getUrsaFighterService();
+		fightersService = factory.getBallFighterService();
 		fightersService.prepareFighters(heroes, enemies);
 	}
 

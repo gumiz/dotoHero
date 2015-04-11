@@ -9,6 +9,8 @@ public class TextureManager {
     private final Texture background;
     private final Texture idleUrsaFrames;
     private final Texture backgroundTopLayer;
+    private final Texture idleBallFrames;
+    private final Texture ballFrames;
     private Texture ursaFrames;
 
     public TextureManager(Factory factory) {
@@ -18,6 +20,8 @@ public class TextureManager {
         backgroundTopLayer = new Texture("img/backgroundTopLayer.png");
         ursaFrames = new Texture("img/ursa.png");
         idleUrsaFrames = new Texture("img/idleUrsa.png");
+        ballFrames = new Texture("img/ball.png");
+        idleBallFrames = new Texture("img/idleBall.png");
     }
 
     public Texture getBackground() {
@@ -35,5 +39,11 @@ public class TextureManager {
     }
     public Texture getIdleUrsaFrames() {
         return idleUrsaFrames;
+    }
+    public Texture getBallFrames() {
+        return ballFrames;
+    }
+    public Texture getIdleBallFrames() {
+        return idleBallFrames;
     }
 }
